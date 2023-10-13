@@ -9,13 +9,7 @@ import jwt from 'jsonwebtoken'
 const app= express();
 app.use(express.json());
 app.use(cookieParser())
-app.use(cors(
- {
-  origin:["http://localhost:3000/registration"],
-  methods:["POST"],
-credentials:true
- }
-))
+app.use(cors())
 
 
 const db = mysql.createConnection({
@@ -26,6 +20,7 @@ const db = mysql.createConnection({
 })
 
 app.post('/login',(req,res)=>{
+  console.log(req.body)
   const sql=" SELECT * FROM login WHERE email = ? AND password = ?";
   db.query(sql,[req.body.email, req.body.password],(err,data)=>{
    if(err)return res.json ({message:'server side error'});
